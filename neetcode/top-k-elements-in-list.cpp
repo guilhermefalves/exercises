@@ -1,47 +1,34 @@
 #include <iostream>
 #include <vector>
-#include <string>
 #include <unordered_map>
 #include <algorithm>
-#include <utility>
 
 using namespace std;
-
-void printArr(vector<int> arr);
 
 class Solution {
 public:
     vector<int> topKFrequent(vector<int>& nums, int k) {
-        unordered_map<int, int> frequency;
-        for (int i = 0; i < nums.size(); i++) {
-            frequency[nums[i]] += 1;
+        unordered_map<int, int> frequencies;
+        for (int n : nums) {
+            frequencies[n] += 1;
         }
 
-        vector<pair<int, int>> sorted_frequency = sortFrequency(frequency);
+        vector<pair<int, int>> sorted;
+        for (auto f : frequencies) {
+            sorted.push_back({f.second, f.first});
+        }
+        sort(sorted.rbegin(), sorted.rend());
 
-        vector<int> top_k;
-        for (auto f : sorted_frequency) {
-            if (top_k.size() == k) {
-                break;
-            }
-
-            top_k.push_back(f.second);
+        vector<int> topK;
+        for (int i = 0; i < k; i++) {
+            topK.push_back(sorted[i].second);
         }
 
-        return top_k;
-    }
-
-    vector<pair<int, int>> sortFrequency(unordered_map<int, int> frequency) {
-        vector<pair<int, int>> frequency_arr;
-        for (auto f : frequency) {
-            frequency_arr.push_back({f.second, f.first});
-        }
-        sort(frequency_arr.rbegin(), frequency_arr.rend());
-        return frequency_arr;
+        return topK;
     }
 };
 
-
+void printArr(vector<int> arr);
 
 int main() {
     int k;
@@ -57,8 +44,8 @@ int main() {
     nums = {7, 4, 4, 4}, k = 1;
     printArr(solution.topKFrequent(nums, k));
 
-    // nums = {7, 7}, k = 1;
-    // printArr(solution.topKFrequent(nums, k));
+    nums = {7, 7}, k = 1;
+    printArr(solution.topKFrequent(nums, k));
 
     return 0;
 }

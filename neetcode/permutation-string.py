@@ -1,4 +1,11 @@
 class Solution:
+    """
+        This Works, but has a time poor time/space complexity
+        O(m * n log n)
+        n = len(s1), m = len(s2)
+
+        Expected: O(n) where n = max(len(s1), len(s2))
+    """
     def checkInclusion(self, s1: str, s2: str) -> bool:
         l, r = 0, len(s1)
         s1 = "".join(sorted(s1))
